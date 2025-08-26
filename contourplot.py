@@ -8,7 +8,7 @@ st.title("Equation Curve Plot (Contour at 0)")
 # --- Input equation ---
 equation_input = st.text_input("Enter equation (e.g. p**2 + q**2 = 4):", value="p**2 + q**2 = 4")
 
-# --- Variable names (first = X, second = Y) ---
+# --- Variables ---
 var1 = st.text_input("First variable (X-axis):", value="p")
 var2 = st.text_input("Second variable (Y-axis):", value="q")
 sym1, sym2 = sp.symbols(f"{var1} {var2}")
@@ -35,19 +35,13 @@ f = sp.lambdify((sym1, sym2), expr, "numpy")
 X = np.linspace(x_min, x_max, 400)
 Y = np.linspace(y_min, y_max, 400)
 X_grid, Y_grid = np.meshgrid(X, Y)
-
-# Evaluate safely
-try:
-    Z = f(X_grid, Y_grid)
-except Exception as e:
-    st.error(f"Evaluation error: {e}")
-    st.stop()
+Z = f(X_grid, Y_grid)
 
 # --- Contour plot: ONLY the equation curve ---
 fig, ax = plt.subplots()
-cs = ax.contour(X_grid, Y_grid, Z, levels=[0], colors="red", linewidths=2)
+cs = ax.contour(X_grid, Y_grid, Z, levels=[0], colors="red", linewidths=2)  # <<< no contourf
 ax.set_xlabel(var1)
 ax.set_ylabel(var2)
-ax.set_title("Equation Contour (expr = 0)")
+ax.set_title("Equation Contour")
 
 st.pyplot(fig)
