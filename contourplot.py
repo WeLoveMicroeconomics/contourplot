@@ -23,7 +23,13 @@ y_min = st.number_input(f"{var2}-min:", value=-10.0)
 y_max = st.number_input(f"{var2}-max:", value=10.0)
 
 # --- Resolution ---
-resolution = st.number_input("Grid resolution (points per axis, higher = smoother curves):", min_value=50, max_value=1000, value=400, step=50)
+resolution = st.number_input(
+    "Grid resolution (points per axis, higher = smoother curves):",
+    min_value=50,
+    max_value=1000,
+    value=400,
+    step=50
+)
 
 # --- Grid ---
 X = np.linspace(x_min, x_max, int(resolution))
@@ -63,10 +69,11 @@ for i, eq_str in enumerate(equations):
     # Plot contour (only the curve)
     cs = ax.contour(X_grid, Y_grid, Z, levels=[0], colors=color, linestyles=linestyle, linewidths=2)
     
-    # Add LaTeX label for legend
-    latex_label = f"${sp.latex(expr)}=0$"
-    for line in cs.collections:
-        line.set_label(latex_label)
+    # Add LaTeX label for legend only if contour exists
+    if cs.collections:
+        latex_label = f"${sp.latex(expr)}=0$"
+        for line in cs.collections:
+            line.set_label(latex_label)
 
 # --- Labels and legend ---
 ax.set_xlabel(var1)
