@@ -6,26 +6,14 @@ import matplotlib.pyplot as plt
 st.title("Contour Plot of a Custom Equation")
 
 # --- Input equation ---
-st.markdown("### Enter your equation with '=' (e.g., `p**2 + q**2 = 4`).")
-equation_input = st.text_input("Equation:", value="p**2 + q**2 = 4")
+equation_input = st.text_input("Enter your equation (e.g., p**2 + q**2 = 4):", value="p**2 + q**2 = 4")
 
 # --- Variable names ---
 var1 = st.text_input("First variable (X-axis):", value="p")
 var2 = st.text_input("Second variable (Y-axis):", value="q")
 
-# Define sympy symbols dynamically
-try:
-    sym1, sym2 = sp.symbols(f"{var1} {var2}")
-except Exception as e:
-    st.error(f"Invalid variable names: {e}")
-    st.stop()
-
-# --- Plot ranges ---
-st.markdown("### Set plot ranges")
-x_min = st.number_input(f"{var1}-axis minimum:", value=-10.0)
-x_max = st.number_input(f"{var1}-axis maximum:", value=10.0)
-y_min = st.number_input(f"{var2}-axis minimum:", value=-10.0)
-y_max = st.number_input(f"{var2}-axis maximum:", value=10.0)
+# Define sympy symbols
+sym1, sym2 = sp.symbols(f"{var1} {var2}")
 
 # --- Parse equation with '=' ---
 try:
@@ -35,10 +23,16 @@ try:
     else:
         expr = sp.sympify(equation_input)
 
-    st.latex(sp.latex(expr) + " = 0")  # Show equation in LaTeX
+    st.latex(sp.latex(expr) + " = 0")
 except Exception as e:
     st.error(f"Invalid equation: {e}")
     st.stop()
+
+# --- Plot ranges ---
+x_min = st.number_input(f"{var1}-axis minimum:", value=-10.0)
+x_max = st.number_input(f"{var1}-axis maximum:", value=10.0)
+y_min = st.number_input(f"{var2}-axis minimum:", value=-10.0)
+y_max = st.number_input(f"{var2}-axis maximum:", value=10.0)
 
 # --- Contour levels ---
 levels_input = st.text_input("Contour levels (comma-separated, default 0):", value="0")
@@ -61,8 +55,8 @@ Z = f(X_grid, Y_grid)
 
 # --- Plot contour ---
 fig, ax = plt.subplots()
-cp = ax.contour(X_grid, Y_grid, Z, levels=levels, colors="black")
-ax.clabel(cp, inline=True, fontsize=8)
+contours = ax.contour(X_grid, Y_grid, Z, levels=levels, colors="black")
+ax.clabel(contours, inline=True, fontsize=8)
 ax.set_xlabel(var1)
 ax.set_ylabel(var2)
 ax.set_title("Contour Plot")
