@@ -57,15 +57,9 @@ for i, eq_str in enumerate(equations):
     linestyle = style_list[i % len(style_list)]
     
     # Plot contour (only the curve)
-    ax.contour(X_grid, Y_grid, Z, levels=[0], colors=color, linestyles=linestyle, linewidths=2)
+    ax.contour(X_grid, Y_grid, Z, levels=[0], colors=color, linestyles=linestyle, linewidths=2, zorder=3)
 
 # --- Labels ---
 ax.set_xlabel(var1)
 ax.set_ylabel(var2)
-ax.set_title("Equations Contours")
-
-# --- Add horizontal and vertical axes ---
-ax.axhline(0, color="black", linewidth=1)
-ax.axvline(0, color="black", linewidth=1)
-
-st.pyplot(fig)
+ax.set_title("_
