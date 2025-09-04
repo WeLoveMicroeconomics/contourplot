@@ -62,4 +62,14 @@ for i, eq_str in enumerate(equations):
 # --- Labels ---
 ax.set_xlabel(var1)
 ax.set_ylabel(var2)
-ax.set_title("_
+ax.set_title("Equations Contours")
+
+# --- Add horizontal and vertical axes on top ---
+ax.axhline(0, color="black", linewidth=1, zorder=5)
+ax.axvline(0, color="black", linewidth=1, zorder=5)
+
+# --- Keep limits as user defined ---
+ax.set_xlim(x_min, x_max)
+ax.set_ylim(y_min, y_max)
+
+st.pyplot(fig)
